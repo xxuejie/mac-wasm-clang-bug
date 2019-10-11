@@ -16,7 +16,8 @@ addons:
   homebrew:
     packages:
       - llvm@8
-      - llvm@9
+      - llvm
+    update: true
 
 matrix:
   include:
@@ -24,19 +25,23 @@ matrix:
       os: linux
       script:
         - export PATH=/usr/lib/llvm-8/bin:$PATH
+        - clang --version
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
     - name: Build on Linux with LLVM 9
       os: linux
       script:
         - export PATH=/usr/lib/llvm-9/bin:$PATH
+        - clang --version
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
     - name: Build on macOS with LLVM 8
       os: osx
       script:
         - export PATH=/usr/local/opt/llvm@8/bin:$PATH
+        - clang --version
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
     - name: Build on macOS with LLVM 9
       os: osx
       script:
-        - export PATH=/usr/local/opt/llvm@9/bin:$PATH
+        - export PATH=/usr/local/opt/llvm/bin:$PATH
+        - clang --version
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c

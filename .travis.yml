@@ -16,7 +16,7 @@ addons:
   homebrew:
     packages:
       - llvm@8
-      - llvm
+      - llvm@9
 
 matrix:
   include:
@@ -35,8 +35,8 @@ matrix:
       script:
         - export PATH=/usr/local/opt/llvm@8/bin:$PATH
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
-    - name: Build on macOS with latest LLVM
+    - name: Build on macOS with LLVM 9
       os: osx
       script:
-        - export PATH=/usr/local/opt/llvm/bin:$PATH
+        - export PATH=/usr/local/opt/llvm@9/bin:$PATH
         - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c

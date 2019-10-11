@@ -1,0 +1,42 @@
+language: rust
+rust: 1.38.0
+dist: bionic
+
+addons:
+  apt:
+    sources:
+      - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
+        key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+      - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+        key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+    packages:
+      - clang-8
+      - clang-9
+      - libc6-dev-i386
+  homebrew:
+    packages:
+      - llvm@8
+      - llvm
+
+matrix:
+  include:
+    - name: Build on Linux with LLVM 8
+      os: linux
+      script:
+        - export PATH=/usr/lib/llvm-8/bin:$PATH
+        - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
+    - name: Build on Linux with LLVM 9
+      os: linux
+      script:
+        - export PATH=/usr/lib/llvm-9/bin:$PATH
+        - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
+    - name: Build on macOS with LLVM 8
+      os: osx
+      script:
+        - export PATH=/usr/local/opt/llvm@8/bin:$PATH
+        - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
+    - name: Build on macOS with latest LLVM
+      os: osx
+      script:
+        - export PATH=/usr/local/opt/llvm/bin:$PATH
+        - clang --target=wasm32-unknown-unknown -o lib.o -c lib.c
